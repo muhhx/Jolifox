@@ -52,6 +52,15 @@ export class WebServer {
   }
 
   /**
+   * Adiciona uma rota PUT.
+   * @param path Caminho para servir.
+   * @param controller Função controller genérico.
+   */
+  put<T>(path: string, controller: IControllerAdapter<T>) {
+    return this.router.put(path, WebServer.adaptController(controller));
+  }
+
+  /**
    * Inicia o servidor web (HTTP) com as configurações realizadas.
    * @param port Porta para ouvir
    */

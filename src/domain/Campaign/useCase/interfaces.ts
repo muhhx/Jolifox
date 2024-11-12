@@ -30,7 +30,7 @@ export interface ICampaignUpdateRepository {
    * @param campaignId Identificador da entidade desejada.
    * @param payload Objeto de domínio Campaign.
    */
-  update(campaignId: string, payload: Campaign): Promise<void>;
+  update(campaignPage: string, payload: Campaign): Promise<void>;
 }
 
 /** Repositório responsável por deletar um Campaign no datasource. */
@@ -40,5 +40,5 @@ export interface ICampaignDeleteRepository {
    *
    * @param campaignId Identificador da entidade desejada.
    */
-  delete(campaignId: string): Promise<void>;
+  delete(campaignPage: string): Promise<void>;
 }

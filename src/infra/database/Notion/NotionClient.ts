@@ -166,6 +166,18 @@ class NotionClient {
       throw error;
     }
   }
+
+  public async updatePage(args: Omit<Parameters<typeof this.client.pages.update>[0], 'auth' | 'in_trash'>) {
+    try {
+      const result = await this.client.pages.update(args);
+
+      if (isFullPage(result)) return result;
+
+      throw new InternalServerError("[NotionClient] Is not full page.");
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 /** Variável que será exportara para uso. */

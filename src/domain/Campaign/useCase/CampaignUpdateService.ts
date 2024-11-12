@@ -1,16 +1,5 @@
-import { Campaign } from "../entity";
-import type {
-  ICampaignFindRepository,
-  ICampaignUpdateRepository,
-} from "./interfaces";
-
-
-  /**
-   * Controller:
-   * 1. Error if no Campaign ID or payload provided
-   * 2. Validate fields (type and if exists)
-   * 3. Created DTO to make sure there is no aditional fields
-   */
+import { Campaign, PlannedDate, Image, Language } from "../entity";
+import type { ICampaignFindRepository, ICampaignUpdateRepository } from "./interfaces";
 
 export class CampaignUpdateService {
   constructor(
@@ -18,22 +7,21 @@ export class CampaignUpdateService {
     private readonly campaignUpdateRepository: ICampaignUpdateRepository
   ) {}
 
-  async handle(campaignId: string, payload: Partial<Omit<Campaign, 'id' | 'createdTime' | 'toObject'>>): Promise<Campaign> {
-    // 1. Verifies if campaignId exists in database.
-    const existingCampaign = await this.campaignFindRepository.findById(+campaignId);
+  async handle(campaignId: number, payload: Partial<Omit<Campaign, 'id' | 'createdTime' | 'toObject'>>): Promise<Campaign> {
+    const existingCampaign = await this.campaignFindRepository.findById(campaignId);
 
-    if (!existingCampaign) throw new Error("Campaign ID not found.");
+    if (!existingCampaign?.pageId) throw new Error("Campaign ID not found.");
 
-    // 2. If it does, updates the Domain model and validates.
-    const updatedCampaign = new Campaign({ ...existingCampaign, ...payload });
-    // console.log("Payload...", payload);
-    console.log("Existing Campaign...", existingCampaign);
-    console.log("Updated Campaign...", updatedCampaign);
+    const campaign = new Campaign({
+      ...existingCampaign,
+      plannedDate: payload.plannedDate ? new PlannedDate(payload.plannedDate) : existingCampaign.plannedDate,
+      language: payload.language ? new Language(payload.language) : existingCampaign.language,
+      images: payload.images ? payload.images.map((image) => new Image(image)) : existingCampaign.images,
+      ...payload,
+    });
 
-    // 3. Persist data in the database
-    await this.campaignUpdateRepository.update(campaignId, updatedCampaign);
+    await this.campaignUpdateRepository.update(existingCampaign.pageId, campaign);
 
-    // 4. Return the updated model.
-    return updatedCampaign;
+    return campaign;
   }
 }
