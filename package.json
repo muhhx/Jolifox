@@ -1,16 +1,24 @@
 {
-  "dependencies": {
-    "@notionhq/client": "^2.2.15",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1"
-  },
+  "name": "jolifox",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Murilo <muriloue@icloud.com>",
+  "license": "MIT",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "start": "node dist/index.js",
     "build": "tsc"
   },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "4.19.2",
+    "zod": "^3.23.8"
+  },
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "4.17.21",
     "@types/node": "^22.9.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
