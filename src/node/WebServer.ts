@@ -43,6 +43,15 @@ export class WebServer {
   }
 
   /**
+   * Adiciona uma rota DELETE.
+   * @param path Caminho para servir.
+   * @param controller Função controller genérico.
+   */
+  delete<T>(path: string, controller: IControllerAdapter<T>) {
+    return this.router.delete(path, WebServer.adaptController(controller));
+  }
+
+  /**
    * Inicia o servidor web (HTTP) com as configurações realizadas.
    * @param port Porta para ouvir
    */

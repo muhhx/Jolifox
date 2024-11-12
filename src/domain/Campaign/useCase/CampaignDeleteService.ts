@@ -1,7 +1,5 @@
-import type {
-  ICampaignDeleteRepository,
-  ICampaignFindRepository,
-} from "./interfaces";
+import { Campaign } from "../entity";
+import type { ICampaignDeleteRepository, ICampaignFindRepository } from "./interfaces";
 
 export class CampaignDeleteService {
   constructor(
@@ -9,16 +7,12 @@ export class CampaignDeleteService {
     private readonly campaignDeleteRepository: ICampaignDeleteRepository
   ) {}
 
-  async handle(campaignId: string): Promise<void> {
-    // 1. Verifies if campaignId exists in database.
-    const existingCampaign = await this.campaignFindRepository.findById(
-      +campaignId
-    );
+  async handle(campaignId: number): Promise<void> {
+    const existingCampaign = await this.campaignFindRepository.findById(campaignId);
 
-    if (!existingCampaign) throw new Error("Campaign ID not found.");
+    if (!existingCampaign?.pageId) throw new Error("Campaign ID not found.");
 
-    // 2. Deletes it
-    await this.campaignDeleteRepository.delete(campaignId);
+    await this.campaignDeleteRepository.delete(existingCampaign.pageId);
 
     return;
   }
