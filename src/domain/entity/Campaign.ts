@@ -1,4 +1,4 @@
-import { ValidationError } from "../../../node";
+import { ValidationError } from "../../node";
 
 interface ICampaignPayload {
   id?: number;
@@ -7,7 +7,7 @@ interface ICampaignPayload {
   imageContent?: string;
   company?: string;
   content?: string;
-  language?: { color: string, name: string };
+  language?: { color: string; name: string };
   icon?: string;
   where?: string;
   plannedDate?: { start: Date; end?: Date };
@@ -18,6 +18,8 @@ interface ICampaignPayload {
 }
 
 const allowedColors = ["blue", "brown", "default", "gray", "green", "orange", "pink", "purple", "red", "yellow"];
+
+const allowedIcons = ["✨"];
 
 export class Campaign {
   public readonly id?: number;
@@ -71,12 +73,16 @@ export class Campaign {
       throw new ValidationError("[Rule by Notion] Campaign must have a maximum of 100 images.");
     }
 
-    payload.images?.forEach(image => {
+    payload.images?.forEach((image) => {
       if (image.url.length > 2000) throw new ValidationError("[Rule by Notion] Image URL cannot exceed 2000 characters.");
-    })
+    });
 
     if (payload.cover && payload.cover.length > 2000) {
       throw new ValidationError("[Rule by Notion] Campaign cover URL cannot exceed 2000 characters.");
+    }
+
+    if (payload.icon && !allowedIcons.includes(payload.icon)) {
+      throw new ValidationError("[Rule by Notion] Campaign icon provided is not allowed.");
     }
 
     if (

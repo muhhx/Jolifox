@@ -1,5 +1,5 @@
-import type { CampaignFindService } from "../../../domain/Campaign/useCase";
 import { type IRequest, parseResponse, StatusCode, BadRequestError } from "../../../node";
+import type { CampaignFindService } from "../../../domain/useCase";
 
 type RequestParams = {
   campaignId?: `${string}`;

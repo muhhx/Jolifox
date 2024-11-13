@@ -1,4 +1,4 @@
-import type { ICampaignDeleteRepository } from "../../domain/Campaign/useCase";
+import type { ICampaignDeleteRepository } from "../../domain/useCase";
 import { client } from "../database/Notion";
 
 export class CampaignDeleteRepository implements ICampaignDeleteRepository {

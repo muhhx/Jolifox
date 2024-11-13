@@ -1,5 +1,5 @@
-import type { CampaignCreateService } from "../../../domain/Campaign/useCase";
 import { BadRequestError, type IRequest, parseResponse, StatusCode } from "../../../node";
+import type { CampaignCreateService } from "../../../domain/useCase";
 import { campaignCreateValidation } from "../../services/validation";
 
 type RequestBody = {
@@ -8,14 +8,8 @@ type RequestBody = {
   company?: string;
   content?: string;
   campaign?: string;
-  language?: {
-    color?: string;
-    name?: string;
-  };
-  plannedDate?: {
-    start?: string;
-    end?: string;
-  };
+  language?: { color?: string; name?: string };
+  plannedDate?: { start?: string; end?: string };
   description?: string;
   imageContent?: string;
 };

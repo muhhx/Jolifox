@@ -1,7 +1,7 @@
-import type { ICampaignFindRepository } from "../../domain/Campaign/useCase";
+import type { ICampaignFindRepository } from "../../domain/useCase";
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { InternalServerError } from "../../node";
-import { Campaign } from "../../domain/Campaign/entity";
+import { Campaign } from "../../domain/entity";
 import { client } from "../database/Notion";
 
 export class CampaignFindRepository implements ICampaignFindRepository {
@@ -62,13 +62,13 @@ export class CampaignFindRepository implements ICampaignFindRepository {
         name: page.properties["Language"].select.name,
         color: page.properties["Language"].select.color,
       } : undefined,
-      images: page.properties["Image"].files?.flatMap((image) => (
-        image.type === "external" 
+      images: page.properties["Image"].files?.flatMap((image) =>
+        image.type === "external"
           ? { name: image.name, url: image.external.url }
           : image.type === "file"
           ? { name: image.name, url: image.file.url }
           : []
-      )),
+      ),
     });
   }
 }

@@ -1,5 +1,5 @@
-import type { ICampaignCreateRepository } from "../../domain/Campaign/useCase";
-import { Campaign } from "../../domain/Campaign/entity";
+import type { ICampaignCreateRepository } from "../../domain/useCase";
+import { Campaign } from "../../domain/entity";
 import { client } from "../database/Notion";
 
 export class CampaignCreateRepository implements ICampaignCreateRepository {
@@ -17,7 +17,7 @@ export class CampaignCreateRepository implements ICampaignCreateRepository {
         icon: { emoji: campaign.icon as any },
       }),
       ...(campaign.cover && {
-        cover: { external: { url: campaign.cover }},
+        cover: { external: { url: campaign.cover } },
       }),
       properties: {
         ...(campaign.description && {
@@ -36,18 +36,22 @@ export class CampaignCreateRepository implements ICampaignCreateRepository {
           Campaign: { rich_text: [{ text: { content: campaign.campaign } }] },
         }),
         ...(campaign.imageContent && {
-          "image content": {
-            rich_text: [{ text: { content: campaign.imageContent } }],
-          },
+          "image content": { rich_text: [{ text: { content: campaign.imageContent } }] },
         }),
         ...(campaign.language && {
           Language: {
-            select: { name: campaign.language.name, color: campaign.language.color as any },
+            select: {
+              name: campaign.language.name,
+              color: campaign.language.color as any,
+            },
           },
         }),
         ...(campaign.images?.length && {
           Image: {
-            files: campaign.images.map((image) => ({ name: image.name, external: { url: image.url } })),
+            files: campaign.images.map((image) => ({
+              name: image.name,
+              external: { url: image.url },
+            })),
           },
         }),
         ...(campaign.plannedDate && {
@@ -65,14 +69,16 @@ export class CampaignCreateRepository implements ICampaignCreateRepository {
                     campaign.plannedDate.end.getMonth() + 1
                   )
                     .toString()
-                    .padStart(2, "0")}-${(campaign.plannedDate.end.getDate() + 1)
+                    .padStart(2, "0")}-${(
+                    campaign.plannedDate.end.getDate() + 1
+                  )
                     .toString()
                     .padStart(2, "0")}`
                 : undefined,
             },
           },
         }),
-      }
+      },
     };
   }
 }

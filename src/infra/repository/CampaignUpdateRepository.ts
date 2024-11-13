@@ -1,5 +1,5 @@
-import type { ICampaignUpdateRepository } from "../../domain/Campaign/useCase";
-import { Campaign } from "../../domain/Campaign/entity";
+import type { ICampaignUpdateRepository } from "../../domain/useCase";
+import { Campaign } from "../../domain/entity";
 import { client } from "../database/Notion";
 
 export class CampaignUpdateRepository implements ICampaignUpdateRepository {
@@ -29,18 +29,22 @@ export class CampaignUpdateRepository implements ICampaignUpdateRepository {
         Campaign: { rich_text: [{ text: { content: campaign.campaign } }] },
       }),
       ...(campaign.imageContent && {
-        "image content": {
-          rich_text: [{ text: { content: campaign.imageContent } }],
-        },
+        "image content": { rich_text: [{ text: { content: campaign.imageContent } }] },
       }),
       ...(campaign.language && {
         Language: {
-          select: { name: campaign.language.name, color: campaign.language.color as any },
+          select: {
+            name: campaign.language.name,
+            color: campaign.language.color as any,
+          },
         },
       }),
       ...(campaign.images?.length && {
         Image: {
-          files: campaign.images.map((image) => ({ name: image.name, external: { url: image.url } })),
+          files: campaign.images.map((image) => ({
+            name: image.name,
+            external: { url: image.url },
+          })),
         },
       }),
       ...(campaign.plannedDate && {

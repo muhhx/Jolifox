@@ -63,3 +63,5 @@ Futuramente, separar em regras que o schema do banco, regras novas e regras que 
 
 9. Precisa escolher uma cor válida (Regra do Notion)
 10. Posso limitar os caras de apeans selecionar selects especificos e nao criar! porem bagunca o banco entao NAO! (Regra Minha)
+
+- Atualizar icon e cover

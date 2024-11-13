@@ -1,6 +1,6 @@
 import type { ICampaignFindRepository } from "./interfaces";
 import type { Campaign } from "../entity";
-import { ResourceNotFoundError } from "../../../node";
+import { ResourceNotFoundError } from "../../node";
 
 export class CampaignFindService {
   constructor(

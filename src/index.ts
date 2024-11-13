@@ -1,16 +1,13 @@
 import { WebServer } from "./node";
 import { initNotion } from "./infra/database/Notion";
+import { CampaignCreateService, CampaignFindService, CampaignDeleteService, CampaignUpdateService } from "./domain/useCase";
 import { CampaignCreateRepository, CampaignFindRepository, CampaignDeleteRepository, CampaignUpdateRepository } from "./infra/repository";
-import { CampaignCreateService, CampaignFindService, CampaignDeleteService, CampaignUpdateService } from "./domain/Campaign/useCase";
 import { campaignCreateController, campaignFindController, campaignDeleteController, campaignUpdateController } from "./infra/http/controller";
 
 (async function bootstrap() {
-  // Inicializa serviços de banco de dados e aguarda ficar pronto.
+  // Inicializa serviços externos e banco de dados.
   await Promise.all([
-    initNotion(
-      process.env.NOTION_API_KEY ?? "localKey",
-      process.env.NOTION_DATABASE_ID ?? "localId"
-    ),
+    initNotion(process.env.NOTION_API_KEY ?? "localApiKey", process.env.NOTION_DATABASE_ID ?? "localDatabaseId"),
   ]);
 
   // Composition Root Pattern para inicialização de dependências.

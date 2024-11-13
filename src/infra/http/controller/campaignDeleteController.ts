@@ -1,5 +1,5 @@
-import type { CampaignDeleteService } from "../../../domain/Campaign/useCase";
 import { type IRequest, parseResponse, StatusCode, BadRequestError } from "../../../node";
+import type { CampaignDeleteService } from "../../../domain/useCase";
 
 type RequestParams = {
   campaignId?: `${string}`;
