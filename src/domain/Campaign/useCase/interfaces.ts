@@ -1,7 +1,5 @@
 import type { Campaign } from "../entity";
 
-// Inversão de dependência gerada por contratos através das seguintes interfaces.
-
 /** Repositório responsável pela persistência de um Campaign no datasource. */
 export interface ICampaignCreateRepository {
   /**

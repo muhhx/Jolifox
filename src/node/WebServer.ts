@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import "dotenv/config";
-
 import type { IControllerAdapter } from "./ControllerAdapter";
 import { InternalServerError } from "./errors";
 import { DomainError } from "./DomainError";
@@ -71,22 +70,13 @@ export class WebServer {
   /**
    * Middleware de tratamento de erros no express.
    */
-  private static errorHandler(
-    error: Error,
-    _req: Request,
-    res: Response,
-    _next: NextFunction
-  ) {
+  private static errorHandler(error: Error, _req: Request, res: Response, _next: NextFunction) {
     if (error instanceof DomainError) {
       if (error?.message === undefined) return res.sendStatus(error.statusCode);
       return res.status(error.statusCode).json(error.message);
     }
-    const internalServerError = new InternalServerError(
-      "Something went wrong in our server."
-    );
-    return res
-      .status(internalServerError.statusCode)
-      .json(internalServerError.message);
+    const internalServerError = new InternalServerError("Something went wrong in our server.");
+    return res.status(internalServerError.statusCode).json(internalServerError.message);
   }
 
   /**

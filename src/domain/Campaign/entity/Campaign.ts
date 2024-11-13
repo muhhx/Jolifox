@@ -1,4 +1,3 @@
-import type { IImage, ILanguage, IPlannedDate } from ".";
 import { ValidationError } from "../../../node";
 
 interface ICampaignPayload {
@@ -8,15 +7,17 @@ interface ICampaignPayload {
   imageContent?: string;
   company?: string;
   content?: string;
-  language?: ILanguage;
+  language?: { color: string, name: string };
   icon?: string;
   where?: string;
-  plannedDate?: IPlannedDate;
+  plannedDate?: { start: Date; end?: Date };
   cover?: string;
-  images?: IImage[];
+  images?: { name: string; url: string }[];
   campaign?: string;
   createdTime?: Date;
 }
+
+const allowedColors = ["blue", "brown", "default", "gray", "green", "orange", "pink", "purple", "red", "yellow"];
 
 export class Campaign {
   public readonly id?: number;
@@ -25,12 +26,12 @@ export class Campaign {
   public readonly imageContent?: string;
   public readonly company?: string;
   public readonly content?: string;
-  public readonly language?: ILanguage;
+  public readonly language?: { color: string; name: string };
   public readonly icon?: string;
   public readonly where?: string;
-  public readonly plannedDate?: IPlannedDate;
+  public readonly plannedDate?: { start: Date; end?: Date };
   public readonly cover?: string;
-  public readonly images?: IImage[];
+  public readonly images?: { name: string; url: string }[];
   public readonly campaign?: string;
   public readonly createdTime?: Date;
 
@@ -44,7 +45,7 @@ export class Campaign {
     this.company = payload.company;
     this.content = payload.content;
     this.language = payload.language;
-    this.icon = payload.icon;
+    this.icon = payload.icon ?? `✨`; //Default icon for the application.
     this.where = payload.where;
     this.plannedDate = payload.plannedDate;
     this.cover = payload.cover;
@@ -53,16 +54,28 @@ export class Campaign {
     this.createdTime = payload.createdTime;
   }
 
-  private validatePayload(payload: ICampaignPayload): void {
+  private validatePayload(payload: ICampaignPayload) {
     if (Object.keys(payload).length === 0) {
       throw new ValidationError("[Rule by me] Campaign must contain at least one property.");
+    }
+
+    if (payload.language && !allowedColors.includes(payload.language.color)) {
+      throw new ValidationError("[Rule by Notion] Campaign language color provided not allowed.");
+    }
+
+    if (payload.plannedDate && payload.plannedDate.end && payload.plannedDate.end.getTime() < payload.plannedDate.start.getTime()) {
+      throw new ValidationError("[Rule by Notion] Campaign plannedDate end date must come after the start date.");
     }
 
     if (payload.images && payload.images.length > 100) {
       throw new ValidationError("[Rule by Notion] Campaign must have a maximum of 100 images.");
     }
 
-    if (payload.icon && payload.icon.length > 2000) {
+    payload.images?.forEach(image => {
+      if (image.url.length > 2000) throw new ValidationError("[Rule by Notion] Image URL cannot exceed 2000 characters.");
+    })
+
+    if (payload.cover && payload.cover.length > 2000) {
       throw new ValidationError("[Rule by Notion] Campaign cover URL cannot exceed 2000 characters.");
     }
 
@@ -78,5 +91,3 @@ export class Campaign {
     }
   }
 }
-
-export type ICampaign = Omit<Campaign, "validatePalyload">;

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { BadRequestError } from "../../../node";
 
-class CreateCampaignValidation {
+class CampaignCreateValidation {
   private readonly schema = z.object({
     where: z
       .string({ invalid_type_error: "[where] Must be a string." })
@@ -127,4 +127,4 @@ class CreateCampaignValidation {
   }
 }
 
-export const createCampaignValidation = new CreateCampaignValidation();
+export const campaignCreateValidation = new CampaignCreateValidation();

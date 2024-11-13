@@ -1,4 +1,3 @@
-import { Campaign } from "../entity";
 import type { ICampaignDeleteRepository, ICampaignFindRepository } from "./interfaces";
 
 export class CampaignDeleteService {

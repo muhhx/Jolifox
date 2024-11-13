@@ -1,6 +1,6 @@
 import type { CampaignUpdateService } from "../../../domain/Campaign/useCase";
 import { BadRequestError, type IRequest, parseResponse, StatusCode } from "../../../node";
-import { createCampaignValidation } from "../../services/validation";
+import { campaignCreateValidation } from "../../services/validation";
 
 type RequestBody = {
   where?: string;
@@ -32,10 +32,8 @@ export function campaignUpdateController(service: CampaignUpdateService) {
 
     if (!req.body) throw new BadRequestError("Body is required.");
 
-    const parsedBody = createCampaignValidation.parse(req.body);
+    const parsedBody = campaignCreateValidation.parse(req.body);
 
-    const result = await service.handle(+campaignId, { ...parsedBody });
-
-    return parseResponse(result, StatusCode.OK);
+    return parseResponse(await service.handle(+campaignId, parsedBody), StatusCode.OK);
   };
 }

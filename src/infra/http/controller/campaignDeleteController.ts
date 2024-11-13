@@ -11,8 +11,6 @@ export function campaignDeleteController(service: CampaignDeleteService) {
 
     if (!campaignId || isNaN(+campaignId)) throw new BadRequestError("ID must be a valid number.");
 
-    const result = await service.handle(+campaignId);
-
-    return parseResponse(result, StatusCode.NoContent);
+    return parseResponse(await service.handle(+campaignId), StatusCode.NoContent);
   };
 }

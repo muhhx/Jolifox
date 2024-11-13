@@ -1,6 +1,5 @@
 import { WebServer } from "./node";
 import { initNotion } from "./infra/database/Notion";
-
 import { CampaignCreateRepository, CampaignFindRepository, CampaignDeleteRepository, CampaignUpdateRepository } from "./infra/repository";
 import { CampaignCreateService, CampaignFindService, CampaignDeleteService, CampaignUpdateService } from "./domain/Campaign/useCase";
 import { campaignCreateController, campaignFindController, campaignDeleteController, campaignUpdateController } from "./infra/http/controller";

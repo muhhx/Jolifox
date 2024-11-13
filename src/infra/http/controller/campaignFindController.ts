@@ -11,8 +11,6 @@ export function campaignFindController(service: CampaignFindService) {
 
     if (!campaignId || isNaN(+campaignId)) throw new BadRequestError("ID must be a valid number.");
 
-    const result = await service.handle(+campaignId);
-
-    return parseResponse(result, StatusCode.OK);
+    return parseResponse(await service.handle(+campaignId), StatusCode.OK);
   };
 }

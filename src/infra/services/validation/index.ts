@@ -1,1 +1,1 @@
-export * from "./validateCreateBody";
+export * from "./CampaignCreateValidation";

@@ -1,4 +1,4 @@
-import { Campaign, PlannedDate, Image, Language } from "../entity";
+import { Campaign } from "../entity";
 import type { ICampaignFindRepository, ICampaignUpdateRepository } from "./interfaces";
 
 export class CampaignUpdateService {
@@ -7,21 +7,15 @@ export class CampaignUpdateService {
     private readonly campaignUpdateRepository: ICampaignUpdateRepository
   ) {}
 
-  async handle(campaignId: number, payload: Partial<Omit<Campaign, 'id' | 'createdTime' | 'toObject'>>): Promise<Campaign> {
+  async handle(campaignId: number, payload: Omit<Campaign, 'validatePayload'>): Promise<Campaign> {
     const existingCampaign = await this.campaignFindRepository.findById(campaignId);
 
     if (!existingCampaign?.pageId) throw new Error("Campaign ID not found.");
 
-    const campaign = new Campaign({
-      ...existingCampaign,
-      plannedDate: payload.plannedDate ? new PlannedDate(payload.plannedDate) : existingCampaign.plannedDate,
-      language: payload.language ? new Language(payload.language) : existingCampaign.language,
-      images: payload.images ? payload.images.map((image) => new Image(image)) : existingCampaign.images,
-      ...payload,
-    });
+    const updatedCampaign = new Campaign({ ...existingCampaign, ...payload });
 
-    await this.campaignUpdateRepository.update(existingCampaign.pageId, campaign);
+    await this.campaignUpdateRepository.update(existingCampaign.pageId, updatedCampaign);
 
-    return campaign;
+    return updatedCampaign;
   }
 }
