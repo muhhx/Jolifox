@@ -1,28 +1,5 @@
-import { Client, isNotionClientError, isFullPage, APIErrorCode } from "@notionhq/client";
+import { Client, isFullPage } from "@notionhq/client";
 import { InternalServerError } from "../../../node";
-
-
-/**
- * type Adapter = (...args: any[]) => any;
- * 
- * private async adapter(fn: Adapter, args: Parameters<Adapter>[0]) {
-    try {
-      const response = await fn(args);
-
-      if (isFullPage(response)) return response;
-
-      throw new Error("[NotionClient] Is not full page.");
-    } catch (error) {
-      if (isNotionClientError(error)) {
-        if (error.code === APIErrorCode.ObjectNotFound) return null;
-
-        // if (error.code === APIErrorCode.RateLimited) return null;
-      }
-
-      throw error;
-    }
-  }
- */
 
 interface IPayload {
   apiKey: string;
