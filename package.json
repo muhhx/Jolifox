@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest",
+    "test:coverage": "TZ='UTC' LANG='pt_BR.UTF-8' jest --randomize --coverage"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
@@ -19,8 +21,11 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "4.17.21",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.9.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   }

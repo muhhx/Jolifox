@@ -1,5 +1,6 @@
-import { Campaign } from "../entity";
 import type { ICampaignFindRepository, ICampaignUpdateRepository } from "./interfaces";
+import { ResourceNotFoundError } from "../../node";
+import { Campaign } from "../entity";
 
 export class CampaignUpdateService {
   constructor(
@@ -10,7 +11,7 @@ export class CampaignUpdateService {
   async handle(campaignId: number, payload: Omit<Campaign, 'validatePayload'>): Promise<Campaign> {
     const existingCampaign = await this.campaignFindRepository.findById(campaignId);
 
-    if (!existingCampaign?.pageId) throw new Error("Campaign ID not found.");
+    if (!existingCampaign?.pageId) throw new ResourceNotFoundError("Campaign ID not found.");
 
     const updatedCampaign = new Campaign({ ...existingCampaign, ...payload });
 
