@@ -5,7 +5,7 @@ export interface IResponse<T> {
   status: StatusCode;
 }
 
-class ResponseObject<T> implements IResponse<T> {
+export class ResponseObject<T> implements IResponse<T> {
   constructor(public result: T, public status: StatusCode) {}
 
   /**

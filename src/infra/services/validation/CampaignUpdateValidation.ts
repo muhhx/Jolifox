@@ -119,12 +119,6 @@ class CampaignUpdateValidation {
       .refine((value) => value === undefined || value.trim() !== "", {
         message: "[cover] Cannot be an empty string",
       }),
-    icon: z
-      .string({ invalid_type_error: "[icon] Must be a string." })
-      .optional()
-      .refine((value) => value === undefined || value.trim() !== "", {
-        message: "[icon] Cannot be an empty string",
-      }),
   });
 
   parse(body: unknown) {

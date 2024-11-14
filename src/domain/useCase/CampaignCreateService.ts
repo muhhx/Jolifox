@@ -7,9 +7,9 @@ export class CampaignCreateService {
   ) {}
 
   async handle(payload: Omit<Campaign, 'validatePayload'>): Promise<void> {
-    const cover = `https://plus.unsplash.com/premium_photo-1730828574186-8b5c216a057f?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`;
+    const defaultCover = `https://plus.unsplash.com/premium_photo-1730828574186-8b5c216a057f?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`;
 
-    const campaign = new Campaign({ ...payload, cover });
+    const campaign = new Campaign({ ...payload, cover: defaultCover });
 
     await this.campaignCreateRepository.create(campaign);
 
